@@ -42,7 +42,12 @@ module.exports = function (opts) {
     stream.write = function (buf) {
         var s = buf.toString();
         buffered += s;
-        parser.write(buf.toString());
+        try {
+            parser.write(buf.toString());
+        } catch (err) {
+            stream.emit("error", err);
+        }
+        
     };
     
     stream.end = function (buf) {
