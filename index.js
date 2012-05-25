@@ -13,6 +13,10 @@ module.exports = function (opts) {
     
     var parser = sax.parser(false);
     var stream = select(parser, opts);
+
+    parser.onerror = function (err) {
+        stream.emit("error", err)
+    }
     
     function write (buf) {
         stream.emit('data', buf);
