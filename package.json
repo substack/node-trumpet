@@ -10,7 +10,10 @@
     },
     "dependencies" : {
         "sax" : "~0.3.5",
-        "ent" : "~0.0.4"
+        "ent" : "~0.0.4",
+        "bufferedstream": "*",
+        "middle": "*",
+        "async": "*"
     },
     "devDependencies" : {
         "tap" : "~0.2.3"

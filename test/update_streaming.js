@@ -1,11 +1,12 @@
 var test = require('tap').test;
 var trumpet = require('../');
 var fs = require('fs');
+var BufferedStream = require('bufferedstream');
 
-test('update', function (t) {
+test('update streaming', function (t) {
     t.plan(2);
     var html = fs.readFileSync(__dirname + '/update_target.html', 'utf8');
-    
+
     var tr = trumpet();
     fs.createReadStream(__dirname + '/update.html').pipe(tr);
     
@@ -13,12 +14,18 @@ test('update', function (t) {
     
     tr.select('.b span', function (node) {
         node.update(function (html) {
-            return html.toUpperCase();
+            var stream = new BufferedStream();
+            stream.end(html.toUpperCase());
+            return stream;
         });
     });
 
     tr.select('.c', function (node) {
-        node.update('---');
+        node.update(function() {
+            var stream = new BufferedStream();
+            stream.end('---');
+            return stream;
+        });
     });
     
     tr.select('.d', function (node) {
@@ -30,13 +37,19 @@ test('update', function (t) {
     });
     
     tr.select('.f', function (node) {
-        node.replace('<b>NOTHING TO SEE HERE</b>');
+        node.replace(function() {
+            var stream = new BufferedStream();
+            stream.end('<b>NOTHING TO SEE HERE</b>');
+            return stream;
+        });
     });
     
     tr.select('.g', function (node) {
         node.replace(function (html) {
             t.equal(html, '<div class="g">EVERYTHING IS TERRIBLE</div>');
-            return '<blink>TERRIBLE</blink>';
+            var stream = new BufferedStream();
+            stream.end('<blink>TERRIBLE</blink>');
+            return stream;
         });
     });
     

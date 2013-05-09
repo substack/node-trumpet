@@ -14,7 +14,7 @@ test('select', function (t) {
             t.equal(html, 'y');
         });
     });
-    
+
     tr.select('.b > i', function (node) {
         node.html(function (html) {
             t.equal(html, 'burritos');
