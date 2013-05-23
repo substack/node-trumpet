@@ -49,7 +49,7 @@ test('select', function (t) {
 
     tr.select('div[class=g]', function (node) {
         node.html(function (html) {
-            t.equal(html, 'sup')
+            t.equal(html, 'sup');
         });
     });
 });
