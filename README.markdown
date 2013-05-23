@@ -242,6 +242,7 @@ Presently these [css selectors](http://www.w3.org/TR/CSS2/selector.html) work:
 * E + F
 * E.class
 * E#id
+* E[attr=value]
 
 install
 =======
