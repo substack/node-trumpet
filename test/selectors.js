@@ -3,7 +3,7 @@ var trumpet = require('../');
 var fs = require('fs');
 
 test('select', function (t) {
-    t.plan(6);
+    t.plan(7);
     
     var tr = trumpet();
     fs.createReadStream(__dirname + '/selectors.html').pipe(tr);
@@ -44,6 +44,12 @@ test('select', function (t) {
     tr.select('.q > .s .m + .n * .v + .u v + w', function (node) {
         node.html(function (html) {
             t.equal(html, 'www');
+        });
+    });
+
+    tr.select('div[class=g]', function (node) {
+        node.html(function (html) {
+            t.equal(html, 'sup')
         });
     });
 });
