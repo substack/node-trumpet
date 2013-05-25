@@ -47,7 +47,7 @@ module.exports = function (opts) {
             inScript = true;
         }
         else if (type === 'text') {
-            len = parser.startTagPosition - pos - 1;
+            len = parser.textNode.length;
         }
         else if (type === 'open' && tag && tag.name === 'SCRIPT'
         && tag.attributes.src) {
@@ -91,6 +91,12 @@ module.exports = function (opts) {
             stream.post('close', tag.name);
         }
     };
+    
+    parser.oncomment = function(comment) {
+        src = buffered.slice(0, comment.length + 7)
+        buffered = buffered.slice(comment.length + 7)
+        stream.raw(src)
+    }
     
     parser.onclosetag = function (name) {
         stream.pre('close', name);
