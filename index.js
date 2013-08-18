@@ -15,6 +15,12 @@ module.exports = function (opts) {
     var skipSpace = false;
     var lastToken = null;
     
+    var opts = opts || {};
+    
+    // default: emit html
+    if (!opts.hasOwnProperty("writehtml") || opts.writehtml === null)
+        opts.writehtml = true;
+    
     tokens.pipe(through(write, end));
     
     var tr = through(
@@ -23,12 +29,12 @@ module.exports = function (opts) {
     );
     
     tr.select = function (sel) {
-        var r = createResult(sel, { all: false });
+        var r = createResult(sel, { all: false, writehtml: opts.writehtml });
         return r;
     };
     
     tr.selectAll = function (sel, cb) {
-        var r = createResult(sel, { all: true });
+        var r = createResult(sel, { all: true, writehtml: opts.writehtml });
         
         r._matcher.on('open', function (m) {
             r.name = m.current.name;
@@ -59,6 +65,11 @@ module.exports = function (opts) {
     return tr;
     
     function createResult (sel, opts) {
+        var opts = opts || {};
+        
+        if (!opts.hasOwnProperty("writehtml") || opts.writehtml === null)
+            opts.writehtml = true;
+        
         var r = new Result(sel);
         
         if (opts.all === false) {
@@ -79,7 +90,9 @@ module.exports = function (opts) {
             && lastToken[1].length > 0
             && '>' === String.fromCharCode(lastToken[1][lastToken[1].length-1])
             ) {
-                if (lastToken[1].length) tr.queue(lastToken[1]);
+                if (lastToken[1].length)
+                    if (opts.writehtml)
+                        tr.queue(lastToken[1]);
             }
             
             if (stream._skipping !== false) {
@@ -91,14 +104,20 @@ module.exports = function (opts) {
             
             function write (buf) {
                 if (Buffer.isBuffer(buf)) {
-                    if (buf.length) tr.queue(buf)
+                    if (buf.length)
+                        if (opts.writehtml)
+                            tr.queue(buf)
                 }
                 else if (typeof buf === 'string') {
-                    if (buf.length) tr.queue(Buffer(buf));
+                    if (buf.length)
+                        if (opts.writehtml)
+                            tr.queue(Buffer(buf));
                 }
                 else {
                     buf = String(buf);
-                    if (buf.length) tr.queue(Buffer(buf));
+                    if (buf.length)
+                        if (opts.writehtml)
+                            tr.queue(Buffer(buf));
                 }
             }
             function end () {
@@ -112,7 +131,7 @@ module.exports = function (opts) {
             skipping = false;
         });
         
-        r.on('queue', function (buf) { tr.queue(buf) });
+        r.on('queue', function (buf) { if (opts.writehtml) tr.queue(buf) });
         
         selectors.push(r);
         return r;
@@ -143,12 +162,16 @@ module.exports = function (opts) {
         if (skipping || writeSkip) return;
         
         if (sub === undefined) {
-            if (lex[1].length) tr.queue(lex[1]);
+            if (lex[1].length)
+                if (opts.writehtml)
+                    tr.queue(lex[1]);
         }
         else if (sub === null) {
             skipSpace = true;
         }
-        else if (sub.length) tr.queue(sub);
+        else if (sub.length)
+            if (opts.writehtml)
+                tr.queue(sub);
     }
     
     function end () {
