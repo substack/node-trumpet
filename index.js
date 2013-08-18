@@ -65,6 +65,9 @@ module.exports = function (opts) {
     return tr;
     
     function createResult (sel, opts) {
+        if (!opts.hasOwnProperty("writehtml") || opts.writehtml === null)
+            opts.writehtml = true;
+        
         var r = new Result(sel);
         
         if (opts.all === false) {
