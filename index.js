@@ -29,12 +29,12 @@ module.exports = function (opts) {
     );
     
     tr.select = function (sel) {
-        var r = createResult(sel, { all: false });
+        var r = createResult(sel, { all: false, writehtml: opts.writehtml });
         return r;
     };
     
     tr.selectAll = function (sel, cb) {
-        var r = createResult(sel, { all: true });
+        var r = createResult(sel, { all: true, writehtml: opts.writehtml });
         
         r._matcher.on('open', function (m) {
             r.name = m.current.name;
