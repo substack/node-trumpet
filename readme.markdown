@@ -166,6 +166,9 @@ Presently these [css selectors](http://www.w3.org/TR/CSS2/selector.html) work:
 * E[attr=value]
 * E[attr~=search]
 * E[attr|=prefix]
+* E[attr^=prefix]
+* E[attr$=suffix]
+* E[attr*=search]
 
 # install
 
