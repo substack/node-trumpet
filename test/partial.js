@@ -9,7 +9,7 @@ test('partial html', function (t) {
     var tr = trumpet();
     
     tr.selectAll('script', function(node) {
-        node.setAttribute('src', 'fooga');
+        node.setAttribute('src', 'updated');
     });
     
     fs.createReadStream(__dirname + '/partial.html')
