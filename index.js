@@ -56,6 +56,15 @@ module.exports = function (opts) {
         return tr.select(sel).createStream(opts);
     };
     
+    // End any read streams of unmatched selectors
+    tr.on("end", function() {
+        selectors.forEach(function(r) {
+            r._readStreams.forEach(function(s) {
+                if (s.readable) s.end();
+            });
+        });
+    });
+    
     return tr;
     
     function createResult (sel, opts) {
