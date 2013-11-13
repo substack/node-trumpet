@@ -87,3 +87,12 @@ test('stream all divs', function (t) {
     
     fs.createReadStream(__dirname + '/read_stream.html').pipe(tr);
 });
+
+test("end event when no match", function(t) {
+    // Make sure an end event is emitted even with no "h1" element"
+    var tr = trumpet();
+    tr.createReadStream("h1").on("end", function() {
+        t.end();
+    });
+    fs.createReadStream(__dirname + '/read_stream.html').pipe(tr);
+});
