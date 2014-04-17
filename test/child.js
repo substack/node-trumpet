@@ -41,3 +41,15 @@ test('child start then no match selector', function (t) {
     });
     fs.createReadStream(__dirname + '/child.html').pipe(tr);
 });
+
+test('child with similar grandchild selector', function (t) {
+    t.plan(2);
+    
+    var tr = trumpet();
+    tr.selectAll('.a > div', function (elem) {
+        elem.getAttribute('class', function (value) {
+            t.notEqual(value, 'c', 'should not have matched');
+        });
+    });
+    fs.createReadStream(__dirname + '/child.html').pipe(tr);
+});
