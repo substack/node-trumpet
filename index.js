@@ -135,17 +135,21 @@ Trumpet.prototype._selectAll = function (str, cb) {
         getAttribute: function (key, cb) {
             if (welem) return welem.getAttribute(key, cb);
             gets.push([ key, cb ]);
+            return this;
         },
         getAttributes: function (cb) {
             getss.push(cb);
+            return this;
         },
         setAttribute: function (key, value) {
             if (welem) return welem.setAttribute(key, value);
             sets.push([ key, value ]);
+            return this;
         },
         removeAttribute: function (key) {
             if (welem) return welem.removeAttribute(key);
             removes.push(key);
+            return this;
         },
         createReadStream: function (opts) {
             if (welem) return welem.createReadStream(opts);
