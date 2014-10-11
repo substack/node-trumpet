@@ -96,3 +96,15 @@ test("end event when no match", function(t) {
     });
     fs.createReadStream(__dirname + '/read_stream.html').pipe(tr);
 });
+
+
+test("end event when nested unclosed tags", function(t) {
+    var tr = trumpet();
+    tr.selectAll('div', function(div) {
+      // noop
+    });
+    tr.on("end", function() {
+        t.end();
+    })
+    fs.createReadStream(__dirname + '/read_stream2.html').pipe(tr);
+});
