@@ -6,9 +6,9 @@ parse and transform streaming html using css selectors
 
 ![trumpet](http://substack.net/images/trumpet.png)
 
-# example
+# examples
 
-## table
+## replace inner
 
 input html:
 
@@ -20,6 +20,8 @@ input html:
   <tr><td>is</td></tr>
 </table>
 ```
+
+code:
 
 ``` js
 var trumpet = require('trumpet');
@@ -46,7 +48,7 @@ output:
 
 ## read all
 
-input html:
+Input html:
 
 ``` html
 <html>
@@ -65,6 +67,8 @@ input html:
 </html>
 ```
 
+code:
+
 ``` js
 var trumpet = require('trumpet');
 var tr = trumpet();
@@ -81,6 +85,64 @@ output:
 
 ``` html
 tacos y burritos
+```
+
+## read modify write
+
+input html:
+
+``` html
+<html>
+  <body>
+    <div class="x">
+      <span>hack</span>
+      <span> the </span>
+      <span>planet</span>
+    </div>
+  </body>
+</html>
+```
+
+code:
+
+``` js
+var trumpet = require('trumpet');
+var through = require('through');
+
+var tr = trumpet();
+
+//select all element and apply transformation function to selections
+tr.selectAll('.x span', function (element) {
+    //define function to transform input
+    var upper = through(function (buf) {
+        this.queue(buf.toString().toUpperCase());
+    });
+
+    //create a read/write stream for selected selement
+    var estream = element.createStream();
+
+    //stream the element's inner html to transformation function
+    //then stream the transformed output back into the element stream
+    estream.pipe(upper).pipe(estream);
+});
+
+//stream in html to trumpet and stream processed output to stdout
+var fs = require('fs');
+fs.createReadStream(__dirname + '/html/uppercase.html').pipe(tr).pipe(process.stdout);
+```
+
+output:
+
+``` html
+<html>
+  <body>
+    <div class="x">
+      <span>HACK</span>
+      <span> THE </span>
+      <span>PLANET</span>
+    </div>
+  </body>
+</html>
 ```
 
 # methods
