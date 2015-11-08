@@ -1,7 +1,7 @@
 var trumpet = require('../');
 var fs = require('fs');
 var through = require('through');
-var duplexer = require('duplexer');
+var duplexer = require('duplexer2');
 var concat = require('concat-stream');
 var coffee = require('coffee-script');
 
