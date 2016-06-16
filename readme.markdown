@@ -111,7 +111,7 @@ called `name` with `cb(value)`.
 
 Returns `elem`.
 
-## elem.getAttributes(name, cb)
+## elem.getAttributes(cb)
 
 Get all the elements in `cb(attributes)` as an object `attributes` with
 lower-case keys.
