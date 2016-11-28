@@ -5,16 +5,16 @@
   "main": "index.js",
   "dependencies": {
     "html-select": "^2.3.5",
-    "html-tokenize": "^1.1.1",
+    "html-tokenize": "^2.0.0",
     "through2": "^1.0.0",
     "duplexer2": "~0.0.2",
     "inherits": "^2.0.0",
     "readable-stream": "^1.0.27-1"
   },
   "devDependencies": {
-    "tape": "~2.12.3",
-    "concat-stream": "~1.4.5",
-    "through": "~2.3.4"
+    "tape": "~4.6.3",
+    "concat-stream": "~1.5.2",
+    "through": "~2.3.8"
   },
   "scripts": {
     "test": "tape test/*.js"
