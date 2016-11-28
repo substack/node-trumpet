@@ -12,9 +12,9 @@
     "readable-stream": "^1.0.27-1"
   },
   "devDependencies": {
-    "tape": "~2.12.3",
-    "concat-stream": "~1.4.5",
-    "through": "~2.3.4"
+    "tape": "~4.6.3",
+    "concat-stream": "~1.5.2",
+    "through": "~2.3.8"
   },
   "scripts": {
     "test": "tape test/*.js"
